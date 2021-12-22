@@ -8,8 +8,6 @@ const UserInfo = () => {
   const { githubUser } = useGlobalContext()
   const { public_repos, followers, following, public_gists } = githubUser
 
-  console.log(public_repos, followers, following, public_gists)
-
   const items = [
     {
       id: 1,
