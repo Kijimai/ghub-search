@@ -15,6 +15,7 @@ const Card = () => {
     location,
     twitter_username,
   } = githubUser
+  
   return (
     <Wrapper>
       <header>
