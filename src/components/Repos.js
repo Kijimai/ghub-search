@@ -6,16 +6,17 @@ import { ExampleChart, Pie3D, Column3D, Bar3D, Doughnut2D } from "./Charts"
 const Repos = () => {
   const { repos } = useGlobalContext()
   let languages = repos.reduce((total, item) => {
-    const { language } = item
+    const { language, stargazers_count: stars } = item
     if (!language) return total
     //if the language does not yet exist, create that key and instantiate with 1
     if (!total[language]) {
-      total[language] = { label: language, value: 1 }
+      total[language] = { label: language, value: 1, stars: stars }
     } else {
       //increase the count for that particular language
       total[language] = {
         ...total[language],
         value: total[language].value + 1,
+        stars: total[language].stars + stars,
       }
     }
     return total
@@ -28,18 +29,26 @@ const Repos = () => {
   ]
 
   //Convert the languages variable from an object to an array and reorder from highest to lowest count
-  languages = Object.values(languages)
+  const mostUsed = Object.values(languages)
     .sort((a, b) => b.value - a.value)
     .slice(0, 5)
 
-  console.log(languages)
+  const mostPopular = Object.values(languages)
+    .sort((a, b) => b.stars - a.stars)
+    .slice(0, 5)
+    .map((item) => {
+      return { ...item, value: item.stars }
+    })
+
+  console.log(mostPopular)
 
   return (
     <section className="section">
       <Wrapper className="section-center">
         {/* <ExampleChart data={languages} /> */}
-        <Doughnut2D data={chartData} />
-        <Pie3D data={languages} />
+        <Doughnut2D data={mostPopular} />
+        <Pie3D data={mostUsed} />
+        <Column3D data={chartData} />
       </Wrapper>
     </section>
   )
