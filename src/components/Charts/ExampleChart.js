@@ -1,3 +1,9 @@
+// ***********************************************************************
+// ***********************************************************************
+// *** THIS FILE EXISTS FOR REFERENCE USE ONLY! **************************
+// ***********************************************************************
+// ***********************************************************************
+
 // STEP 1 - Include Dependencies
 // Include react
 import React from "react"
@@ -31,10 +37,12 @@ const ChartComponent = ({ data }) => {
       // Chart Configuration
       chart: {
         //Set the chart caption
+        // labelFontColor: "#fff",
         caption: "Languages",
         showBorder: 1,
         borderThickness: "3",
         borderAlpha: "25",
+        // bgColor: "#1D1D1D",
         //Set the chart subcaption
         // subCaption: "In MMbbl = One Million barrels",
         //Set the x-axis name

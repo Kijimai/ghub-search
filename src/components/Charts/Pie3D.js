@@ -1,7 +1,32 @@
-import React from 'react';
+import React from "react"
+import ReactFC from "react-fusioncharts"
+import FusionCharts from "fusioncharts"
+import Chart from "fusioncharts/fusioncharts.charts"
+import CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy"
 
-const Pie3D = () => {
-  return <div>chart</div>;
-};
+ReactFC.fcRoot(FusionCharts, Chart, CandyTheme)
 
-export default Pie3D;
+const ChartComponent = ({ data }) => {
+  const chartConfigs = {
+    type: "pie3d", // The chart type
+    width: "400", // Width of the chart
+    height: "400", // Height of the chart
+    dataFormat: "json", // Data type
+    dataSource: {
+      // Chart Configuration
+      chart: {
+        caption: "languages",
+        theme: "candy",
+        decimals: 0,
+        pieRadius: '50%',
+        paletteColors: ''
+      },
+      // Chart Data
+      data,
+    },
+  }
+
+  return <ReactFC {...chartConfigs} />
+}
+
+export default ChartComponent

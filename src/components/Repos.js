@@ -5,7 +5,28 @@ import { ExampleChart, Pie3D, Column3D, Bar3D, Doughnut2D } from "./Charts"
 
 const Repos = () => {
   const { repos } = useGlobalContext()
-  console.log(repos)
+  let languages = repos.reduce((total, item) => {
+    const { language } = item
+    if (!language) return total
+    //if the language does not yet exist, create that key and instantiate with 1
+    if (!total[language]) {
+      total[language] = { label: language, value: 1 }
+    } else {
+      //increase the count for that particular language
+      total[language] = {
+        ...total[language],
+        value: total[language].value + 1,
+      }
+    }
+    return total
+  }, {})
+
+  //Convert the languages variable from an object to an array and reorder from highest to lowest count
+  languages = Object.values(languages)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 5)
+
+  console.log(languages)
 
   const chartData = [
     {
@@ -28,7 +49,8 @@ const Repos = () => {
   return (
     <section className="section">
       <Wrapper className="section-center">
-        <ExampleChart data={chartData} />
+        {/* <ExampleChart data={chartData} /> */}
+        <Pie3D data={languages} />
       </Wrapper>
     </section>
   )
