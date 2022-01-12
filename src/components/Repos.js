@@ -21,6 +21,12 @@ const Repos = () => {
     return total
   }, {})
 
+  const chartData = [
+    { label: "HTML", value: "25" },
+    { label: "CSS", value: "32" },
+    { label: "Javascript", value: "121" },
+  ]
+
   //Convert the languages variable from an object to an array and reorder from highest to lowest count
   languages = Object.values(languages)
     .sort((a, b) => b.value - a.value)
@@ -28,28 +34,11 @@ const Repos = () => {
 
   console.log(languages)
 
-  const chartData = [
-    {
-      label: "HTML",
-      value: "13",
-      color: "#F28C25",
-    },
-    {
-      label: "CSS",
-      value: "33",
-      color: "#1CAAD1",
-    },
-    {
-      label: "Javascript",
-      value: "80",
-      color: "#F7E654",
-    },
-  ]
-
   return (
     <section className="section">
       <Wrapper className="section-center">
-        {/* <ExampleChart data={chartData} /> */}
+        {/* <ExampleChart data={languages} /> */}
+        <Doughnut2D data={chartData} />
         <Pie3D data={languages} />
       </Wrapper>
     </section>
