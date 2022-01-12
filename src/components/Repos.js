@@ -22,11 +22,7 @@ const Repos = () => {
     return total
   }, {})
 
-  const chartData = [
-    { label: "HTML", value: "25" },
-    { label: "CSS", value: "32" },
-    { label: "Javascript", value: "121" },
-  ]
+  // stars and forks
 
   //Convert the languages variable from an object to an array and reorder from highest to lowest count
   const mostUsed = Object.values(languages)
@@ -40,7 +36,26 @@ const Repos = () => {
       return { ...item, value: item.stars }
     })
 
-  console.log(mostPopular)
+  let { stars, forks } = repos.reduce(
+    (total, item) => {
+      const { stargazers_count, name, forks } = item
+      total.stars[stargazers_count] = { label: name, value: stargazers_count }
+      total.forks[forks] = { label: name, value: forks }
+      return total
+    },
+    { stars: {}, forks: {} }
+  )
+
+  // take the last 5 largest items of this array and reverse the order
+  stars = Object.values(stars).slice(-5).reverse()
+  forks = Object.values(forks).slice(-5).reverse()
+
+  //Dummy data
+  const chartData = [
+    { label: "HTML", value: "25" },
+    { label: "CSS", value: "32" },
+    { label: "Javascript", value: "121" },
+  ]
 
   return (
     <section className="section">
@@ -48,7 +63,8 @@ const Repos = () => {
         {/* <ExampleChart data={languages} /> */}
         <Doughnut2D data={mostPopular} />
         <Pie3D data={mostUsed} />
-        <Column3D data={chartData} />
+        <Column3D data={stars} />
+        <Bar3D data={forks} />
       </Wrapper>
     </section>
   )
