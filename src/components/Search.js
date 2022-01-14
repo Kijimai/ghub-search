@@ -1,20 +1,19 @@
 import React from "react"
 import styled from "styled-components"
 import { MdSearch } from "react-icons/md"
-import { GithubContext } from "../context/context"
+import { GithubContext, useGlobalContext } from "../context/context"
 const Search = () => {
   const [user, setUser] = React.useState("")
+  const { requests } = useGlobalContext()
 
   //retrieve info from global context
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(user)
-    if(user) {
-
-      
+    if (user) {
       // setUser('')
     }
-    return 
+    return
   }
 
   return (
@@ -29,10 +28,11 @@ const Search = () => {
               value={user}
               onChange={(e) => setUser(e.target.value)}
             />
-            <button type="submit">Search</button>
+            {requests > 0 && <button type="submit">Search</button>}
+            {/* Alternatively, make the button disabled on 0 requests remaining */}
           </div>
         </form>
-        <h3>Requests : 60 / 60</h3>
+        <h3>Requests : {requests} / 60</h3>
       </Wrapper>
     </section>
   )
