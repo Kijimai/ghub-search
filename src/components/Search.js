@@ -4,14 +4,13 @@ import { MdSearch } from "react-icons/md"
 import { GithubContext, useGlobalContext } from "../context/context"
 const Search = () => {
   const [user, setUser] = React.useState("")
-  const { requests, error } = useGlobalContext()
+  const { searchGithubUser, requests, error, isLoading } = useGlobalContext()
 
   //retrieve info from global context
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(user)
     if (user) {
-      // setUser('')
+      searchGithubUser(user)
     }
     return
   }
@@ -33,7 +32,11 @@ const Search = () => {
               value={user}
               onChange={(e) => setUser(e.target.value)}
             />
-            {requests > 0 && <button type="submit">Search</button>}
+            {requests > 0 && (
+              <button disabled={isLoading ? true : false} type="submit">
+                Search
+              </button>
+            )}
             {/* Alternatively, make the button disabled on 0 requests remaining */}
           </div>
         </form>
@@ -84,6 +87,15 @@ const Wrapper = styled.div`
       color: var(--clr-white);
       transition: var(--transition);
       cursor: pointer;
+      
+      &:disabled {
+        background-color: #ccc;
+        &:hover {
+          background-color: #ccc;
+          color: #fff;
+        }
+      }
+
       &:hover {
         background: var(--clr-primary-8);
         color: var(--clr-primary-1);

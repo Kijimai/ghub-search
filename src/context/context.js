@@ -14,7 +14,7 @@ const GithubProvider = ({ children }) => {
   const [repos, setRepos] = useState(mockRepos)
   const [followers, setFollowers] = useState(mockFollowers)
   const [requests, setRequests] = useState(0)
-  const [loading, isLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState({
     show: false,
     message: "",
@@ -24,13 +24,30 @@ const GithubProvider = ({ children }) => {
     setError({ show, message })
   }
 
+  const searchGithubUser = async (user) => {
+    setIsLoading(true)
+    toggleError()
+    const response = await axios(`${rootUrl}/users/${user}`).catch((err) => {
+      console.log(err)
+    })
+
+    if (response) {
+      setGithubUser(response.data)
+    } else {
+      toggleError(true, "There is no user with that username.")
+    }
+    
+    checkRequests()
+    setIsLoading(false)
+  }
+
   const checkRequests = () => {
     axios(`${rootUrl}/rate_limit`)
       .then(({ data }) => {
         let {
           rate: { remaining },
         } = data
-        remaining = 0
+        // remaining = 0 TESTING PURPOSES
         setRequests(remaining)
         console.log(requests)
         if (remaining === 0) {
@@ -45,7 +62,15 @@ const GithubProvider = ({ children }) => {
 
   return (
     <GithubContext.Provider
-      value={{ repos, githubUser, followers, requests, error }}
+      value={{
+        repos,
+        githubUser,
+        followers,
+        requests,
+        error,
+        searchGithubUser,
+        isLoading,
+      }}
     >
       {children}
     </GithubContext.Provider>
