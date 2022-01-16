@@ -33,10 +33,22 @@ const GithubProvider = ({ children }) => {
 
     if (response) {
       setGithubUser(response.data)
+      const {repos_url, followers_url} = response.data
+      //get user repository data
+      axios(`${repos_url}?per_page=100`).then(({data}) => {
+        console.log(data)
+        setRepos(data)
+      })
+      //get use followers data
+      axios(`${followers_url}?per_page=100`).then(({data}) => {
+        console.log(data)
+        setFollowers(data)
+      })
+
     } else {
       toggleError(true, "There is no user with that username.")
     }
-    
+
     checkRequests()
     setIsLoading(false)
   }

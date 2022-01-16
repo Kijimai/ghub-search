@@ -1,10 +1,11 @@
 import React from "react"
 import styled from "styled-components"
-import { GithubContext, useGlobalContext } from "../context/context"
-import { ExampleChart, Pie3D, Column3D, Bar3D, Doughnut2D } from "./Charts"
+import { useGlobalContext } from "../context/context"
+import { Pie3D, Column3D, Bar3D, Doughnut2D } from "./Charts"
 
 const Repos = () => {
   const { repos } = useGlobalContext()
+
   let languages = repos.reduce((total, item) => {
     const { language, stargazers_count: stars } = item
     if (!language) return total
@@ -51,11 +52,11 @@ const Repos = () => {
   forks = Object.values(forks).slice(-5).reverse()
 
   //Dummy data
-  const chartData = [
-    { label: "HTML", value: "25" },
-    { label: "CSS", value: "32" },
-    { label: "Javascript", value: "121" },
-  ]
+  // const chartData = [
+  //   { label: "HTML", value: "25" },
+  //   { label: "CSS", value: "32" },
+  //   { label: "Javascript", value: "121" },
+  // ]
 
   return (
     <section className="section">
