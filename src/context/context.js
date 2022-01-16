@@ -33,18 +33,37 @@ const GithubProvider = ({ children }) => {
 
     if (response) {
       setGithubUser(response.data)
-      const {repos_url, followers_url} = response.data
+      const { repos_url, followers_url } = response.data
       //get user repository data
-      axios(`${repos_url}?per_page=100`).then(({data}) => {
-        console.log(data)
-        setRepos(data)
-      })
+      const foundRepos = axios(`${repos_url}?per_page=100`)
       //get use followers data
-      axios(`${followers_url}?per_page=100`).then(({data}) => {
-        console.log(data)
-        setFollowers(data)
-      })
+      const foundFollowers = axios(`${followers_url}?per_page=100`)
 
+      await Promise.allSettled([foundRepos, foundFollowers]).then((result) => {
+        console.log(result)
+        const [repos, followers] = result
+        if (repos.status === "rejected" || followers.status === "rejected") {
+          toggleError(
+            true,
+            "An error occured during fetch. Some info may be missing."
+          )
+        }
+        if (repos.status === "fulfilled") {
+          setRepos(repos.value.data)
+        }
+        if (followers.status === "fulfilled") {
+          setFollowers(followers.value.data)
+        }
+        // if (
+        //   result[0].status === "fulfilled" &&
+        //   result[1].status === "fulfilled"
+        // ) {
+        //   setRepos(result[0].value.data)
+        //   setFollowers(result[1].value.data)
+        // } else {
+        //   setError(true, 'An error occured during fetch.')
+        // }
+      })
     } else {
       toggleError(true, "There is no user with that username.")
     }
