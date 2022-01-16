@@ -54,15 +54,6 @@ const GithubProvider = ({ children }) => {
         if (followers.status === "fulfilled") {
           setFollowers(followers.value.data)
         }
-        // if (
-        //   result[0].status === "fulfilled" &&
-        //   result[1].status === "fulfilled"
-        // ) {
-        //   setRepos(result[0].value.data)
-        //   setFollowers(result[1].value.data)
-        // } else {
-        //   setError(true, 'An error occured during fetch.')
-        // }
       })
     } else {
       toggleError(true, "There is no user with that username.")
